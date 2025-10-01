@@ -1,7 +1,7 @@
 import time
 from bullove import bullove
 
-@bullove(pattern=r"^\.ping$")
+@bullove(pattern=r"\.ping$")
 async def _(e):
     start = time.time()
     xx = await e.respond("🏓 Pong...")
