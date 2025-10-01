@@ -1,6 +1,4 @@
 import os
-import glob
-import importlib
 from telethon import TelegramClient, events
 from telethon.sessions import StringSession
 
@@ -13,16 +11,15 @@ SESSION_STRING = os.getenv("SESSION_STRING")
 client = TelegramClient(StringSession(SESSION_STRING), API_ID, API_HASH)
 
 # Definisi dekorator bullove
-def bullove(**kwargs):
-    """Dekorator custom untuk command handler."""
+def bullove(pattern=None):
+    """Dekorator custom untuk command handler dengan prefix titik (.)"""
     def wrapper(func):
-        client.add_event_handler(func, events.NewMessage(**kwargs))
+        client.add_event_handler(
+            func,
+            events.NewMessage(outgoing=True, pattern=pattern)  # <= outgoing True
+        )
         return func
     return wrapper
-
-# Auto-load semua plugin
-for plugin in glob.glob("plugins/*.py"):
-    importlib.import_module(plugin.replace("/", ".")[:-3])
 
 async def main():
     print("⚡ Bullove Userbot berjalan...")
