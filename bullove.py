@@ -1,4 +1,6 @@
 import os
+import glob
+import importlib
 from telethon import TelegramClient, events
 from telethon.sessions import StringSession
 
@@ -9,6 +11,13 @@ SESSION_STRING = os.getenv("SESSION_STRING")
 
 # Inisialisasi client
 client = TelegramClient(StringSession(SESSION_STRING), API_ID, API_HASH)
+
+
+# Auto load plugins dari folder "plugins"
+for file in glob.glob("plugins/*.py"):
+    name = os.path.splitext(os.path.basename(file))[0]
+    importlib.import_module(f"plugins.{name}")
+
 
 # Definisi dekorator bullove
 def bullove(pattern=None):
@@ -29,3 +38,4 @@ async def main():
 if __name__ == "__main__":
     with client:
         client.loop.run_until_complete(main())
+
