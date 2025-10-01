@@ -1,13 +1,15 @@
 from telethon.tl.functions.channels import (
     CreateChannelRequest,
     UpdateUsernameRequest,
+)
+from telethon.tl.functions.messages import (
+    CreateChatRequest,
     ExportChatInviteRequest,
 )
-from telethon.tl.functions.messages import CreateChatRequest
-from bullove import bullove, client
+from bullove import bullove
 
 
-@bullove(pattern=r"^buat (b|g|c)(?: |$)(.*)")
+@bullove(pattern=r"^\.buat (b|g|c)(?: |$)(.*)")
 async def _(e):
     type_of_group = e.pattern_match.group(1).strip()
     group_name = e.pattern_match.group(2)
