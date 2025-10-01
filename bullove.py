@@ -1,4 +1,6 @@
 import os
+import glob
+import importlib
 from telethon import TelegramClient, events
 from telethon.sessions import StringSession
 
@@ -17,6 +19,10 @@ def bullove(**kwargs):
         client.add_event_handler(func, events.NewMessage(**kwargs))
         return func
     return wrapper
+
+# Auto-load semua plugin
+for plugin in glob.glob("plugins/*.py"):
+    importlib.import_module(plugin.replace("/", ".")[:-3])
 
 async def main():
     print("⚡ Bullove Userbot berjalan...")
